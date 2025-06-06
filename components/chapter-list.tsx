@@ -130,13 +130,10 @@ export function ChapterList() {
     setSortAscending((prev) => !prev)
   }
 
-  // Toggle theme
+  // Toggle theme with proper handling
   const toggleTheme = () => {
-    if (resolvedTheme === "dark") {
-      setTheme("light")
-    } else {
-      setTheme("dark")
-    }
+    const newTheme = resolvedTheme === "dark" ? "light" : "dark"
+    setTheme(newTheme)
   }
 
   const subjects = [
@@ -168,7 +165,11 @@ export function ChapterList() {
 
   // Don't render until mounted to avoid hydration mismatch
   if (!mounted) {
-    return null
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   return (
@@ -180,18 +181,24 @@ export function ChapterList() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h1 className="text-2xl font-bold">JEE Main</h1>
+                <h1 className="text-2xl font-bold text-foreground">JEE Main</h1>
                 <p className="text-sm text-muted-foreground">2025-2009 | 173 Papers | 15825 Qs</p>
               </div>
-              <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-9 w-9" aria-label="Toggle theme">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="h-9 w-9 hover:bg-muted transition-colors"
+                aria-label="Toggle theme"
+              >
                 {resolvedTheme === "dark" ? (
-                  <Sun size={20} className="text-foreground" />
+                  <Sun size={20} className="text-foreground hover:text-yellow-500 transition-colors" />
                 ) : (
-                  <Moon size={20} className="text-foreground" />
+                  <Moon size={20} className="text-foreground hover:text-blue-500 transition-colors" />
                 )}
               </Button>
             </div>
-            <h2 className="text-lg font-semibold mb-4">Subjects</h2>
+            <h2 className="text-lg font-semibold mb-4 text-foreground">Subjects</h2>
             <nav className="space-y-2">
               {subjects.map((subject) => {
                 const Icon = subject.icon
@@ -343,11 +350,17 @@ export function ChapterList() {
           <div className="flex items-center justify-between">
             <ArrowLeft size={24} className="text-muted-foreground" />
             <h1 className="text-lg font-semibold text-foreground">JEE Main</h1>
-            <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-8 w-8" aria-label="Toggle theme">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="h-8 w-8 hover:bg-muted transition-colors"
+              aria-label="Toggle theme"
+            >
               {resolvedTheme === "dark" ? (
-                <Sun size={18} className="text-foreground" />
+                <Sun size={18} className="text-foreground hover:text-yellow-500 transition-colors" />
               ) : (
-                <Moon size={18} className="text-foreground" />
+                <Moon size={18} className="text-foreground hover:text-blue-500 transition-colors" />
               )}
             </Button>
           </div>
